@@ -1,3 +1,8 @@
+/*
+  → app.js
+  → arma3-rcon by dotFionn
+*/
+
 const be = require('battle-node');
 
 be.prototype.close = function (cb = () => {}) {
