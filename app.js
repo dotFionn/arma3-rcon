@@ -11,7 +11,9 @@ function Arma3Rcon(ip, port, password) {
   }.bind(this);
 
   this.close = function () {
-    this.be.close();
+    if (this.be) {
+      this.be.close();
+    }
     this.be = undefined;
   }.bind(this);
 }
