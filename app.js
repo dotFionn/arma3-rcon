@@ -48,6 +48,8 @@ function Arma3Rcon(ip, port, password) {
       }
     });
   }.bind(this);
+
+  require('./functions/players').bind(this)();
 }
 
 module.exports = Arma3Rcon;
