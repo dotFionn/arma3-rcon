@@ -51,15 +51,7 @@ function Arma3Rcon(ip, port, password) {
 
   this.getPlayers = function () {
     return new Promise((res, rej) => {
-      try {
-        if (!this.be) {
-          rej('There is currently no Connection to an RCON Server.');
-        }
-
-        this.be.sendCommand('players', res);
-      } catch (e) {
-        rej(e);
-      }
+      this.rconCommand('players').then(res).catch(rej);
     });
   };
 
@@ -91,6 +83,22 @@ function Arma3Rcon(ip, port, password) {
           res(data.split('\n').pop().match(/(\d+)/gim)[0]);
         })
         .catch(rej);
+    });
+  };
+
+  this.rconCommand = function (command) {
+    return new Promise((res, rej) => {
+      try {
+        if (!this.be) {
+          rej('There is currently no Connection to an RCON Server.');
+        }
+
+        this.be.sendCommand(command, res);
+      } catch (e) {
+        rej(e);
+      }
+    });
+  };
 }
 
 module.exports = Arma3Rcon;
