@@ -1,4 +1,8 @@
 const be = require('battle-node');
+
+be.prototype.close = function (cb = () => {}) {
+  this.connected = false;
+  clearInterval(this.keepalive);
   this.socket.unref();
   this.socket.close();
   cb();
@@ -12,7 +16,6 @@ function Arma3Rcon(ip, port, password) {
   this.connectCallback = () => {};
 
   this.connect = function () {
-    this.be = new be(this.ip, this.port, this.password);
     return new Promise((res, rej) => {
       this.be = new be({ ip: this.ip, port: this.port, rconPassword: this.password });
 
