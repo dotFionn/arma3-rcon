@@ -49,7 +49,48 @@ function Arma3Rcon(ip, port, password) {
     });
   }.bind(this);
 
-  require('./functions/players').bind(this)();
+  this.getPlayers = function () {
+    return new Promise((res, rej) => {
+      try {
+        if (!this.be) {
+          rej('There is currently no Connection to an RCON Server.');
+        }
+
+        this.be.sendCommand('players', res);
+      } catch (e) {
+        rej(e);
+      }
+    });
+  };
+
+  this.getPlayersArray = function () {
+    return new Promise((res, rej) => {
+      this.getPlayers().then((data) => {
+        let dataArray = [
+          ...data.matchAll(/(\d+)\s+(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+\b)\s+(\d+)\s+([0-9a-fA-F]+)\((\w+)\)\s([\S ]+)$/gim),
+        ].map((e) => e.splice(1, e.length - 1));
+        dataArray.map((e) => {
+          let name = e[5];
+          if (name.includes(' (Lobby)')) {
+            e[5] = name.replace(' (Lobby)', '');
+            e[6] = true;
+          } else {
+            e[6] = false;
+          }
+        });
+
+        res(dataArray);
+      });
+    });
+  };
+
+  this.getPlayerCount = function () {
+    return new Promise((res, rej) => {
+      this.getPlayers()
+        .then((data) => {
+          res(data.split('\n').pop().match(/(\d+)/gim)[0]);
+        })
+        .catch(rej);
 }
 
 module.exports = Arma3Rcon;
