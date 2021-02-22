@@ -1,0 +1,24 @@
+{
+  "name": "arma3-rcon",
+  "version": "1.0.0",
+  "description": "query and manage an arma 3 server using battleye rcon",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dotFionn/arma3-rcon.git"
+  },
+  "keywords": [
+    "arma",
+    "arma3",
+    "rcon"
+  ],
+  "author": "dotFionn @ Vahana-Life (vahana-life.de)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/dotFionn/arma3-rcon/issues"
+  },
+  "homepage": "https://github.com/dotFionn/arma3-rcon#readme"
+}
