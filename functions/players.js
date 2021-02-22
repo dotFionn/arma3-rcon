@@ -1,3 +1,8 @@
+/*
+  → players.js
+  → arma3-rcon by dotFionn
+*/
+
 module.exports = function () {
   this.getPlayers = function () {
     return new Promise((res, rej) => {
