@@ -67,7 +67,7 @@ function Arma3Rcon(ip, port, password) {
     return new Promise((res, rej) => {
       this.getPlayers().then((data) => {
         let dataArray = [
-          ...data.matchAll(/(\d+)\s+(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d+\b)\s+(\d+)\s+([0-9a-fA-F]+)\((\w+)\)\s([\S ]+)$/gim),
+          ...data.matchAll(/(\d+)\s+(\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}):(\d+\b)\s+(\d+)\s+([0-9a-fA-F]+)\(\w+\)\s([\S ]+)$/gim),
         ].map((e) => e.splice(1, e.length - 1));
         dataArray.map((e) => {
           let name = e[5];
