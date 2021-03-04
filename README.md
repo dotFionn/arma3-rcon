@@ -44,12 +44,14 @@ This Behavior can be influenced by passing an object as 4th parameter to the con
 
 ```js
 const a3r = new A3Rcon('xxx.xxx.xxx.xxx', 1234, 'password', {
-  enabled: true,
   // set to false to disable auto reconnect
-  interval: 5,
+  enabled: true,
+
   // set the time between reconnection attempts in seconds
-  count: 24,
+  interval: 5,
+
   // set the amount of tries that are carried out before quitting the connection
+  count: 24,
 });
 ```
 
