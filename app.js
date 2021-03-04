@@ -18,6 +18,8 @@ function Arma3Rcon(ip, port, password) {
   this.port = port;
   this.password = password;
 
+  this.be;
+
   this.connectCallback = () => {};
 
   this.connect = function () {
