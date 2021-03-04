@@ -36,6 +36,28 @@ a3r.connect().then(async (success) => {
 });
 ```
 
+When using the library like described in the example above, it will automatically try to reconnect to the server **24 times** with an interval of **5 seconds** between each attempt.
+This Behavior can be influenced by passing an object as 4th parameter to the constructor:
+
+```js
+const a3r = new A3Rcon('xxx.xxx.xxx.xxx', 1234, 'password', {
+  enabled: true,
+  // set to false to disable auto reconnect
+  interval: 5,
+  // set the time between reconnection attempts in seconds
+  count: 24,
+  // set the amount of tries that are carried out before quitting the connection
+});
+```
+
+All of these parameters can also be altered after initially constructing the connection:
+
+```js
+a3r.autoReconnect = true;
+a3r.autoReconnectInterval = 5;
+a3r.autoReconnectCount = 24;
+```
+
 ### rconCommand
 
 `rconCommand` is the pass-through function to directly interact with the server and use functionality, that might not be implemented yet. It returns the raw response from the RCON server, without any processing done. Further documentation on BattlEye's RCON is available at [https://www.battleye.com/support/documentation/](https://www.battleye.com/support/documentation/).
@@ -106,6 +128,63 @@ await a3r.getPlayersArray();
 await a3r.getPlayerCount();
 /*
 2
+*/
+```
+
+### say
+
+`say` sends the `say` command to the server. It accepts 2 parameters: `message` and `player`. If `player` is omitted, it defaults to `-1` which sends the message to every player.
+
+```js
+await a3r.say('hello everyone. please ignore, this is a test :)');
+// will send the message to everyone
+
+await a3r.say('hello. please ignore, this is a test :)', 1);
+// will send the message to the player with the id 1
+```
+
+### getBans
+
+`getBans` is really only sending the `bans` command to the server and returns the result without any further processing.
+
+```js
+await a3r.getBans();
+/*
+GUID Bans:
+[#] [GUID] [Minutes left] [Reason]
+----------------------------------------
+0  beguid perm sgsdg
+
+IP Bans:
+[#] [IP Address] [Minutes left] [Reason]
+----------------------------------------------
+1  xxx.xxx.xxx.xxx     1432 tesagsdg
+*/
+```
+
+### getBansArray
+
+`getBansArray` returns the processed result of `getBans`. Every Player line contains 5 entries: `type`, `id`, `banned resource`, `minutes left/"perm"`, `reason`
+
+```js
+await a3r.getBansArray();
+/* returns array of arrays
+[
+  [
+    'guid', // type (guid/ip)
+    '0', // id
+    'beguid', // banned resource
+    'perm', // minutes left/"perm"
+    'sgsdg' // reason
+  ],
+  [
+    'ip', // type (guid/ip)
+    '1', // id
+    'xxx.xxx.xxx.xxx', // banned resource
+    '1432', // minutes left/"perm"
+    'tesagsdg' // reason
+  ]
+]
 */
 ```
 
