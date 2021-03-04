@@ -86,6 +86,12 @@ function Arma3Rcon(ip, port, password) {
     });
   };
 
+  this.say = function (message, player = -1) {
+    return new Promise((res, rej) => {
+      this.rconCommand(`say ${player} ${message}`).then(res).catch(rej);
+    });
+  };
+
   this.rconCommand = function (command) {
     return new Promise((res, rej) => {
       try {
