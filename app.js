@@ -143,6 +143,12 @@ function Arma3Rcon(ip, port, password, autoReconnectOptions = {}) {
     });
   };
 
+
+  this.getBans = function () {
+    return new Promise((res, rej) => {
+      this.rconCommand('bans').then(res).catch(rej);
+    });
+  };
   this.rconCommand = function (command) {
     return new Promise((res, rej) => {
       try {
