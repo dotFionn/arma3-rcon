@@ -73,7 +73,7 @@ Players on server:
 `getPlayersArray` returns the processed result of `getPlayers`. Every Player line contains 7 entries: `id`, `ip`, `port`, `ping`, `beguid`, `name`, `lobby`
 
 ```js
-await a3r.getPlayers();
+await a3r.getPlayersArray();
 /* returns array of arrays
 [
   [
