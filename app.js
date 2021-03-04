@@ -6,17 +6,25 @@
 const be = require('battle-node');
 
 be.prototype.close = function (cb = () => {}) {
-  this.connected = false;
-  clearInterval(this.keepalive);
-  this.socket.unref();
-  this.socket.close();
-  cb();
+  try {
+    this.connected = false;
+    clearInterval(this.keepalive);
+    this.socket.unref();
+    this.socket.close();
+    cb();
+  } catch (e) {
+    console.log(e);
+  }
 };
 
-function Arma3Rcon(ip, port, password) {
+function Arma3Rcon(ip, port, password, autoReconnectOptions = {}) {
   this.ip = ip;
   this.port = port;
   this.password = password;
+
+  this.autoReconnect = autoReconnectOptions.enabled ?? true;
+  this.autoReconnectInterval = autoReconnectOptions.interval ?? 5;
+  this.autoReconnectCount = autoReconnectOptions.count ?? 24;
 
   this.be;
 
@@ -31,7 +39,11 @@ function Arma3Rcon(ip, port, password) {
           return rej(err);
         }
 
+        console.log(`connected to RCON`);
+
         res(success);
+
+        this.setupEventHandlers();
       });
 
       this.be.login();
@@ -49,6 +61,43 @@ function Arma3Rcon(ip, port, password) {
         rej(e);
       }
     });
+  }.bind(this);
+
+  this.setupEventHandlers = function () {
+    if (!this.be) return;
+
+    console.log('setting up handlers');
+
+    this.be.on(
+      'disconnected',
+      function disconnectHandler() {
+        console.log(`RCON disonnected (${this.ip}:${this.port})`);
+
+        if (this.autoReconnect) {
+          let attemptsRemaining = this.autoReconnectCount;
+          console.log(`reconnecting RCON...`);
+
+          let t = setInterval(
+            function () {
+              console.log('attempting reconnect...');
+              this.connect()
+                .then(function (success) {
+                  console.log('connected');
+                  if (success || attemptsRemaining == 0) {
+                    clearInterval(t);
+                  }
+                })
+                .catch(function () {});
+
+              attemptsRemaining--;
+            }.bind(this),
+            this.autoReconnectInterval * 1000
+          );
+        }
+      }.bind(this)
+    );
+
+    this.be.on('message', console.log.bind(console));
   }.bind(this);
 
   this.getPlayers = function () {
