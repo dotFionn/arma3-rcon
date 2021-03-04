@@ -17,6 +17,9 @@ npm install arma3-rcon
   - unparsed/default BattlEye output
   - only the player count
   - player data array
+- reading bans unparsed and parsed
+- auto reconnecting
+- say/messages to clients
 
 ## Usage
 
@@ -191,6 +194,19 @@ await a3r.getBansArray();
 ## Dependencies
 
 We only depend on `battle-node`, which in turn only has one further dependency, which has no further dependencies.
+
+## Version Log
+
+### v1.1.0 - 2021-03-xx
+
+- getting bans
+- say
+- reconnecting
+
+### v1.0.0 - 2021-02-22
+
+- getting player data
+- passthrough
 
 ## License
 
