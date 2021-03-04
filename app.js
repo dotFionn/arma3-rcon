@@ -149,6 +149,17 @@ function Arma3Rcon(ip, port, password, autoReconnectOptions = {}) {
       this.rconCommand('bans').then(res).catch(rej);
     });
   };
+
+  this.getBansArray = function () {
+    return new Promise((res, rej) => {
+      this.getBans().then((data) => {
+        let guidBans = [...data.matchAll(/(\d+)\s+([0-9a-fA-F]+)\s([perm|\d]+)\s+([\S ]+)$/gim)].map((e) => e.splice(1, e.length - 1));
+        let ipBans = [...data.matchAll(/(\d+)\s+([0-9\.]+)\s+([perm|\d]+)\s+([\S ]+)$/gim)].map((e) => e.splice(1, e.length - 1));
+
+        res([...guidBans.map((e) => ['guid', ...e]), ...ipBans.map((e) => ['ip', ...e])]);
+      });
+    });
+  };
   this.rconCommand = function (command) {
     return new Promise((res, rej) => {
       try {
