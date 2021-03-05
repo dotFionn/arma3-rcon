@@ -63,6 +63,10 @@ a3r.autoReconnectInterval = 5;
 a3r.autoReconnectCount = 24;
 ```
 
+### IDs
+
+When targeting players that are currently connected to the server, the ID provided to the respective functions has to be the id that is available from the `getPlayers`/`getPlayersArray` functions.
+
 ### rconCommand
 
 `rconCommand` is the pass-through function to directly interact with the server and use functionality, that might not be implemented yet. It returns the raw response from the RCON server, without any processing done. Further documentation on BattlEye's RCON is available at [https://www.battleye.com/support/documentation/](https://www.battleye.com/support/documentation/).
@@ -140,12 +144,14 @@ await a3r.getPlayerCount();
 
 `say` sends the `say` command to the server. It accepts 2 parameters: `message` and `player`. If `player` is omitted, it defaults to `-1` which sends the message to every player.
 
-```js
-await a3r.say('hello everyone. please ignore, this is a test :)');
-// will send the message to everyone
+To target the correct player, the ID has to be the ID that is available from the `getPlayers`/`getPlayersArray` functions.
 
-await a3r.say('hello. please ignore, this is a test :)', 1);
+```js
+// will send the message to everyone
+await a3r.say('hello everyone. please ignore, this is a test :)');
+
 // will send the message to the player with the id 1
+await a3r.say('hello. please ignore, this is a test :)', 1);
 ```
 
 ### getBans
