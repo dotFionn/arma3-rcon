@@ -205,7 +205,7 @@ We only depend on `battle-node`, which in turn only has one further dependency, 
 
 ## Version Log
 
-### v1.1.0 - 2021-03-xx
+### v1.1.0 - 2021-04-13
 
 - getting bans
 - say

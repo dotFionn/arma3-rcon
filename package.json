@@ -1,6 +1,6 @@
 {
   "name": "arma3-rcon",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "query and manage an arma 3 server using battleye rcon",
   "main": "app.js",
   "scripts": {
